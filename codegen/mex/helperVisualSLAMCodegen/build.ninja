@@ -1,0 +1,236 @@
+# CompilerName=msvcpp170
+# Mode=optim
+ninja_required_version = 1.3
+
+# Basic folders
+root = .
+builddir = $root\build\win64
+matlabdir = C:\Program Files\MATLAB\R2024b
+startdir = C:\Shihao_research\Robotic Vision-ME-462-001-202515\SLAM project_shihao
+
+# Toolchain information
+cc = cl
+cxx = cl
+linker = link
+linkerxx = link
+
+cflags =  /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE /O2 /Oy- /DNDEBUG /fp:strict /utf-8 /I "$root" /I "$startdir" /I "$matlabdir\toolbox\vision\builtins\src\ocv\include" /I "$matlabdir\toolbox\images\opencv\opencvcg\include" /I "$matlabdir\extern\include" /I "$matlabdir\toolbox\vision\builtins\src\vision\include" /I "$matlabdir\toolbox\vision\builtins\src\vision\include\calibration" /I "$matlabdir\toolbox\vision\builtins\src\vision\export\include\vision" /I "$matlabdir\toolbox\vision\builtins\src\vision\export\include\vision\calibration" /I "$root\interface" /I "." -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=helperVisualSLAMCodegen_mex -DMW_NEEDS_VERSION_H /openmp /wd4101 /wd4251 
+
+cxxflags =  /c /Zc:__cplusplus /Zp8 /GR /W3 /EHs /nologo /MD /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE /O2 /Oy- /DNDEBUG /fp:strict /utf-8 /I "$root" /I "$startdir" /I "$matlabdir\toolbox\vision\builtins\src\ocv\include" /I "$matlabdir\toolbox\images\opencv\opencvcg\include" /I "$matlabdir\extern\include" /I "$matlabdir\toolbox\vision\builtins\src\vision\include" /I "$matlabdir\toolbox\vision\builtins\src\vision\include\calibration" /I "$matlabdir\toolbox\vision\builtins\src\vision\export\include\vision" /I "$matlabdir\toolbox\vision\builtins\src\vision\export\include\vision\calibration" /I "$root\interface" /I "." -DHAVE_LAPACK_CONFIG_H -DLAPACK_COMPLEX_STRUCTURE -DMW_HAVE_LAPACK_DECLS -DMODEL=helperVisualSLAMCodegen_mex -DMW_NEEDS_VERSION_H /openmp /wd4101 /wd4251 
+
+ldflags =  /nologo    /DLL /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  /out:"helperVisualSLAMCodegen_mex.mexw64" /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmwblas.lib libmwlapack.lib libemlrt.lib libcovrt.lib libut.lib libmwmathutil.lib libiomp5md.lib /nodefaultlib:vcomp /LIBPATH:"$matlabdir\bin\win64"
+
+ldxxflags =  /nologo    /DLL /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib  /out:"helperVisualSLAMCodegen_mex.mexw64" /LIBPATH:"$matlabdir\extern\lib\win64\microsoft" libmwblas.lib libmwlapack.lib libemlrt.lib libcovrt.lib libut.lib libmwmathutil.lib libiomp5md.lib /nodefaultlib:vcomp /LIBPATH:"$matlabdir\bin\win64"
+
+linkobjs =  "$matlabdir\toolbox\images\opencv\opencvcg\win64\lib\opencv_core470.lib" "$matlabdir\toolbox\images\opencv\opencvcg\win64\lib\opencv_imgproc470.lib" "$matlabdir\toolbox\images\opencv\opencvcg\win64\lib\opencv_features2d470.lib" "$matlabdir\toolbox\images\opencv\opencvcg\win64\lib\opencv_flann470.lib" "$matlabdir\extern\lib\win64\microsoft\libmwComputeMetric.lib" "$matlabdir\extern\lib\win64\microsoft\libmwbundleAdjust.lib" "$matlabdir\toolbox\images\opencv\opencvcg\win64\lib\opencv_calib3d470.lib" "$matlabdir\toolbox\images\opencv\opencvcg\win64\lib\opencv_video470.lib" "$matlabdir\extern\lib\win64\microsoft\libmwoptimizePoses.lib"
+
+# Build Rules
+rule cc
+    command = $cc $cflags $in /Fo$out
+
+rule cxx
+    command = $cxx $cxxflags $in /Fo$out
+
+rule link
+    command = $linker @$out.rsp $linkobjs $ldflags
+    rspfile = $out.rsp
+    rspfile_content = $in
+
+rule linkxx
+    command = $linkerxx $in $linkobjs $ldxxflags
+
+# Build
+build $builddir\detectORBCore.obj : cxx $matlabdir\toolbox\vision\builtins\src\ocv\detectORBCore.cpp
+build $builddir\cgCommon.obj : cxx $matlabdir\toolbox\vision\builtins\src\ocv\cgCommon.cpp
+build $builddir\extractORBCore.obj : cxx $matlabdir\toolbox\vision\builtins\src\ocv\extractORBCore.cpp
+build $builddir\pointTrackerCore.obj : cxx $matlabdir\toolbox\vision\builtins\src\ocv\pointTrackerCore.cpp
+build $builddir\visionSBAAuxiliaryVariableCore.obj : cxx $matlabdir\toolbox\vision\builtins\src\vision\visionSBAAuxiliaryVariableCore.cpp
+build $builddir\visionSBAUpdateRotationVectorCore.obj : cxx $matlabdir\toolbox\vision\builtins\src\vision\visionSBAUpdateRotationVectorCore.cpp
+build $builddir\helperVisualSLAMCodegen_data.obj : cxx $root\helperVisualSLAMCodegen_data.cpp
+build $builddir\rt_nonfinite.obj : cxx $root\rt_nonfinite.cpp
+build $builddir\helperVisualSLAMCodegen_initialize.obj : cxx $root\helperVisualSLAMCodegen_initialize.cpp
+build $builddir\helperVisualSLAMCodegen_terminate.obj : cxx $root\helperVisualSLAMCodegen_terminate.cpp
+build $builddir\helperVisualSLAMCodegen.obj : cxx $root\helperVisualSLAMCodegen.cpp
+build $builddir\isequal.obj : cxx $root\isequal.cpp
+build $builddir\detectORBFeatures.obj : cxx $root\detectORBFeatures.cpp
+build $builddir\indexShapeCheck.obj : cxx $root\indexShapeCheck.cpp
+build $builddir\extractFeatures.obj : cxx $root\extractFeatures.cpp
+build $builddir\xzlangeM.obj : cxx $root\xzlangeM.cpp
+build $builddir\xnrm2.obj : cxx $root\xnrm2.cpp
+build $builddir\xdotc.obj : cxx $root\xdotc.cpp
+build $builddir\warning.obj : cxx $root\warning.cpp
+build $builddir\matchFeatures.obj : cxx $root\matchFeatures.cpp
+build $builddir\cvalgMatchFeatures.obj : cxx $root\cvalgMatchFeatures.cpp
+build $builddir\log2.obj : cxx $root\log2.cpp
+build $builddir\colon.obj : cxx $root\colon.cpp
+build $builddir\sum.obj : cxx $root\sum.cpp
+build $builddir\sumMatrixIncludeNaN.obj : cxx $root\sumMatrixIncludeNaN.cpp
+build $builddir\estgeotform2d.obj : cxx $root\estgeotform2d.cpp
+build $builddir\msac.obj : cxx $root\msac.cpp
+build $builddir\rand.obj : cxx $root\rand.cpp
+build $builddir\mod.obj : cxx $root\mod.cpp
+build $builddir\algEstimateGeometricTransform.obj : cxx $root\algEstimateGeometricTransform.cpp
+build $builddir\normalizePoints.obj : cxx $root\normalizePoints.cpp
+build $builddir\xgesvd.obj : cxx $root\xgesvd.cpp
+build $builddir\abs.obj : cxx $root\abs.cpp
+build $builddir\combineVectorElements.obj : cxx $root\combineVectorElements.cpp
+build $builddir\all.obj : cxx $root\all.cpp
+build $builddir\svd.obj : cxx $root\svd.cpp
+build $builddir\svd1.obj : cxx $root\svd1.cpp
+build $builddir\any1.obj : cxx $root\any1.cpp
+build $builddir\det.obj : cxx $root\det.cpp
+build $builddir\norm.obj : cxx $root\norm.cpp
+build $builddir\xzsvdc.obj : cxx $root\xzsvdc.cpp
+build $builddir\rcond.obj : cxx $root\rcond.cpp
+build $builddir\checkTransformationMatrixCondition.obj : cxx $root\checkTransformationMatrixCondition.cpp
+build $builddir\find.obj : cxx $root\find.cpp
+build $builddir\mtimes.obj : cxx $root\mtimes.cpp
+build $builddir\mrdivide_helper.obj : cxx $root\mrdivide_helper.cpp
+build $builddir\estimateEssentialMatrix.obj : cxx $root\estimateEssentialMatrix.cpp
+build $builddir\ishermitian.obj : cxx $root\ishermitian.cpp
+build $builddir\eigGeneralized.obj : cxx $root\eigGeneralized.cpp
+build $builddir\assertValidSizeArg.obj : cxx $root\assertValidSizeArg.cpp
+build $builddir\computeLoopNumber.obj : cxx $root\computeLoopNumber.cpp
+build $builddir\mldivide.obj : cxx $root\mldivide.cpp
+build $builddir\epipolarLine.obj : cxx $root\epipolarLine.cpp
+build $builddir\estrelpose.obj : cxx $root\estrelpose.cpp
+build $builddir\anyNonFinite.obj : cxx $root\anyNonFinite.cpp
+build $builddir\estRelPoseImpl.obj : cxx $root\estRelPoseImpl.cpp
+build $builddir\cameraProjection.obj : cxx $root\cameraProjection.cpp
+build $builddir\constrainToRotationMatrix3D.obj : cxx $root\constrainToRotationMatrix3D.cpp
+build $builddir\diag.obj : cxx $root\diag.cpp
+build $builddir\mean.obj : cxx $root\mean.cpp
+build $builddir\inv.obj : cxx $root\inv.cpp
+build $builddir\triangulate.obj : cxx $root\triangulate.cpp
+build $builddir\repmat.obj : cxx $root\repmat.cpp
+build $builddir\bsxfun.obj : cxx $root\bsxfun.cpp
+build $builddir\ixfun.obj : cxx $root\ixfun.cpp
+build $builddir\vecnorm.obj : cxx $root\vecnorm.cpp
+build $builddir\error.obj : cxx $root\error.cpp
+build $builddir\ismember.obj : cxx $root\ismember.cpp
+build $builddir\issorted.obj : cxx $root\issorted.cpp
+build $builddir\eml_setop.obj : cxx $root\eml_setop.cpp
+build $builddir\sortIdx.obj : cxx $root\sortIdx.cpp
+build $builddir\sparse.obj : cxx $root\sparse.cpp
+build $builddir\validateNumericIndex.obj : cxx $root\validateNumericIndex.cpp
+build $builddir\locBsearch.obj : cxx $root\locBsearch.cpp
+build $builddir\bigProduct.obj : cxx $root\bigProduct.cpp
+build $builddir\validateattributes.obj : cxx $root\validateattributes.cpp
+build $builddir\histcounts.obj : cxx $root\histcounts.cpp
+build $builddir\catCheck.obj : cxx $root\catCheck.cpp
+build $builddir\unique.obj : cxx $root\unique.cpp
+build $builddir\bundleAdjustment.obj : cxx $root\bundleAdjustment.cpp
+build $builddir\validateAndParseInputs.obj : cxx $root\validateAndParseInputs.cpp
+build $builddir\convertInputDataFormat.obj : cxx $root\convertInputDataFormat.cpp
+build $builddir\squeeze.obj : cxx $root\squeeze.cpp
+build $builddir\rotationToQuaternion.obj : cxx $root\rotationToQuaternion.cpp
+build $builddir\sparseBA.obj : cxx $root\sparseBA.cpp
+build $builddir\median.obj : cxx $root\median.cpp
+build $builddir\quickselect.obj : cxx $root\quickselect.cpp
+build $builddir\checkIfViewIsMissing.obj : cxx $root\checkIfViewIsMissing.cpp
+build $builddir\nullAssignment.obj : cxx $root\nullAssignment.cpp
+build $builddir\ind2sub.obj : cxx $root\ind2sub.cpp
+build $builddir\validatenrows.obj : cxx $root\validatenrows.cpp
+build $builddir\unaryMinOrMax.obj : cxx $root\unaryMinOrMax.cpp
+build $builddir\helperTrackLastKeyFrameKLT.obj : cxx $root\helperTrackLastKeyFrameKLT.cpp
+build $builddir\matchFeaturesInRadius.obj : cxx $root\matchFeaturesInRadius.cpp
+build $builddir\exhaustiveDistanceMetrics.obj : cxx $root\exhaustiveDistanceMetrics.cpp
+build $builddir\partialSort.obj : cxx $root\partialSort.cpp
+build $builddir\estWorldPoseImpl.obj : cxx $root\estWorldPoseImpl.cpp
+build $builddir\solveP3P.obj : cxx $root\solveP3P.cpp
+build $builddir\roots.obj : cxx $root\roots.cpp
+build $builddir\computeRigidTransform.obj : cxx $root\computeRigidTransform.cpp
+build $builddir\bundleAdjustmentMotion.obj : cxx $root\bundleAdjustmentMotion.cpp
+build $builddir\rodriguesVectorToMatrix.obj : cxx $root\rodriguesVectorToMatrix.cpp
+build $builddir\computeReprojectionErrors.obj : cxx $root\computeReprojectionErrors.cpp
+build $builddir\helperTrackLocalMapCg.obj : cxx $root\helperTrackLocalMapCg.cpp
+build $builddir\world2img.obj : cxx $root\world2img.cpp
+build $builddir\validatenonnan.obj : cxx $root\validatenonnan.cpp
+build $builddir\validatepositive.obj : cxx $root\validatepositive.cpp
+build $builddir\helperCreateNewMapPoints.obj : cxx $root\helperCreateNewMapPoints.cpp
+build $builddir\helperCheckLoopClosureCg.obj : cxx $root\helperCheckLoopClosureCg.cpp
+build $builddir\spdiags.obj : cxx $root\spdiags.cpp
+build $builddir\evaluateImageRetrieval.obj : cxx $root\evaluateImageRetrieval.cpp
+build $builddir\nchoosek.obj : cxx $root\nchoosek.cpp
+build $builddir\estgeotform3d.obj : cxx $root\estgeotform3d.cpp
+build $builddir\randperm.obj : cxx $root\randperm.cpp
+build $builddir\constructFromEdgeList.obj : cxx $root\constructFromEdgeList.cpp
+build $builddir\sortLE.obj : cxx $root\sortLE.cpp
+build $builddir\optimizePoses.obj : cxx $root\optimizePoses.cpp
+build $builddir\strjoin.obj : cxx $root\strjoin.cpp
+build $builddir\optimizePoses1.obj : cxx $root\optimizePoses1.cpp
+build $builddir\_coder_helperVisualSLAMCodegen_api.obj : cxx $root\interface\_coder_helperVisualSLAMCodegen_api.cpp
+build $builddir\_coder_helperVisualSLAMCodegen_mex.obj : cxx $root\interface\_coder_helperVisualSLAMCodegen_mex.cpp
+build $builddir\rng.obj : cxx $root\rng.cpp
+build $builddir\eml_int_forloop_overflow_check.obj : cxx $root\eml_int_forloop_overflow_check.cpp
+build $builddir\sub2ind.obj : cxx $root\sub2ind.cpp
+build $builddir\strcmp.obj : cxx $root\strcmp.cpp
+build $builddir\sort3.obj : cxx $root\sort3.cpp
+build $builddir\dijkstraShortestPathImpl.obj : cxx $root\dijkstraShortestPathImpl.cpp
+build $builddir\xscal.obj : cxx $root\xscal.cpp
+build $builddir\xaxpy.obj : cxx $root\xaxpy.cpp
+build $builddir\xrot.obj : cxx $root\xrot.cpp
+build $builddir\xswap.obj : cxx $root\xswap.cpp
+build $builddir\xzgetrf.obj : cxx $root\xzgetrf.cpp
+build $builddir\sort.obj : cxx $root\sort.cpp
+build $builddir\xzlascl.obj : cxx $root\xzlascl.cpp
+build $builddir\checkAndConvertMatchedPoints.obj : cxx $root\checkAndConvertMatchedPoints.cpp
+build $builddir\pose2extr.obj : cxx $root\pose2extr.cpp
+build $builddir\cosd.obj : cxx $root\cosd.cpp
+build $builddir\fix.obj : cxx $root\fix.cpp
+build $builddir\sortrows.obj : cxx $root\sortrows.cpp
+build $builddir\introsort.obj : cxx $root\introsort.cpp
+build $builddir\insertionsort.obj : cxx $root\insertionsort.cpp
+build $builddir\heapsort.obj : cxx $root\heapsort.cpp
+build $builddir\checkAndConvertPoints.obj : cxx $root\checkAndConvertPoints.cpp
+build $builddir\validateAndParseInputs1.obj : cxx $root\validateAndParseInputs1.cpp
+build $builddir\sqrt.obj : cxx $root\sqrt.cpp
+build $builddir\useConstantDim.obj : cxx $root\useConstantDim.cpp
+build $builddir\acosd.obj : cxx $root\acosd.cpp
+build $builddir\sqrt1.obj : cxx $root\sqrt1.cpp
+build $builddir\helperAddNewKeyFrame.obj : cxx $root\helperAddNewKeyFrame.cpp
+build $builddir\helperAddLoopConnections.obj : cxx $root\helperAddLoopConnections.cpp
+build $builddir\div.obj : cxx $root\div.cpp
+build $builddir\sumprod.obj : cxx $root\sumprod.cpp
+build $builddir\MLGraph.obj : cxx $root\MLGraph.cpp
+build $builddir\PointTracker.obj : cxx $root\PointTracker.cpp
+build $builddir\averagePrecision.obj : cxx $root\averagePrecision.cpp
+build $builddir\unsafeSxfun.obj : cxx $root\unsafeSxfun.cpp
+build $builddir\ViewSetFeatureGraph.obj : cxx $root\ViewSetFeatureGraph.cpp
+build $builddir\worldpointset.obj : cxx $root\worldpointset.cpp
+build $builddir\cameraIntrinsics.obj : cxx $root\cameraIntrinsics.cpp
+build $builddir\ORBPoints.obj : cxx $root\ORBPoints.cpp
+build $builddir\rigidtform3d.obj : cxx $root\rigidtform3d.cpp
+build $builddir\graphPropertyContainer.obj : cxx $root\graphPropertyContainer.cpp
+build $builddir\graph.obj : cxx $root\graph.cpp
+build $builddir\imageviewset.obj : cxx $root\imageviewset.cpp
+build $builddir\sparse1.obj : cxx $root\sparse1.cpp
+build $builddir\string1.obj : cxx $root\string1.cpp
+build $builddir\EncoderBinaryFeatures.obj : cxx $root\EncoderBinaryFeatures.cpp
+build $builddir\EncoderVocabularyTree.obj : cxx $root\EncoderVocabularyTree.cpp
+build $builddir\bagOfFeatures.obj : cxx $root\bagOfFeatures.cpp
+build $builddir\visualWords.obj : cxx $root\visualWords.cpp
+build $builddir\invertedImageIndex.obj : cxx $root\invertedImageIndex.cpp
+build $builddir\pointTrack.obj : cxx $root\pointTrack.cpp
+build $builddir\rowNamesDim.obj : cxx $root\rowNamesDim.cpp
+build $builddir\varNamesDim.obj : cxx $root\varNamesDim.cpp
+build $builddir\table.obj : cxx $root\table.cpp
+build $builddir\list1.obj : cxx $root\list1.cpp
+build $builddir\affine3d.obj : cxx $root\affine3d.cpp
+build $builddir\rigid3d.obj : cxx $root\rigid3d.cpp
+build $builddir\WarningState.obj : cxx $root\WarningState.cpp
+build $builddir\MLDigraph.obj : cxx $root\MLDigraph.cpp
+build $builddir\digraph.obj : cxx $root\digraph.cpp
+build $builddir\minPriorityQueue.obj : cxx $root\minPriorityQueue.cpp
+build $builddir\ORBPointsImpl.obj : cxx $root\ORBPointsImpl.cpp
+build $builddir\FeaturePointsImpl.obj : cxx $root\FeaturePointsImpl.cpp
+build $builddir\addedge.obj : cxx $root\addedge.cpp
+build $builddir\rigid3dImpl.obj : cxx $root\rigid3dImpl.cpp
+build $builddir\ViewSetBaseImpl.obj : cxx $root\ViewSetBaseImpl.cpp
+build $builddir\bundleAdjustmentValidation.obj : cxx $root\bundleAdjustmentValidation.cpp
+build $builddir\helperVisualSLAMCodegen_mexutil.obj : cxx $root\helperVisualSLAMCodegen_mexutil.cpp
+build $builddir\_coder_helperVisualSLAMCodegen_info.obj : cxx $root\interface\_coder_helperVisualSLAMCodegen_info.cpp
+build $builddir\cpp_mexapi_version.obj : cxx $matlabdir\extern\version\cpp_mexapi_version.cpp
+
+# Link
+build $root\helperVisualSLAMCodegen_mex.mexw64 : linkxx $builddir\detectORBCore.obj $builddir\cgCommon.obj $builddir\extractORBCore.obj $builddir\pointTrackerCore.obj $builddir\visionSBAAuxiliaryVariableCore.obj $builddir\visionSBAUpdateRotationVectorCore.obj $builddir\helperVisualSLAMCodegen_data.obj $builddir\rt_nonfinite.obj $builddir\helperVisualSLAMCodegen_initialize.obj $builddir\helperVisualSLAMCodegen_terminate.obj $builddir\helperVisualSLAMCodegen.obj $builddir\isequal.obj $builddir\detectORBFeatures.obj $builddir\indexShapeCheck.obj $builddir\extractFeatures.obj $builddir\xzlangeM.obj $builddir\xnrm2.obj $builddir\xdotc.obj $builddir\warning.obj $builddir\matchFeatures.obj $builddir\cvalgMatchFeatures.obj $builddir\log2.obj $builddir\colon.obj $builddir\sum.obj $builddir\sumMatrixIncludeNaN.obj $builddir\estgeotform2d.obj $builddir\msac.obj $builddir\rand.obj $builddir\mod.obj $builddir\algEstimateGeometricTransform.obj $builddir\normalizePoints.obj $builddir\xgesvd.obj $builddir\abs.obj $builddir\combineVectorElements.obj $builddir\all.obj $builddir\svd.obj $builddir\svd1.obj $builddir\any1.obj $builddir\det.obj $builddir\norm.obj $builddir\xzsvdc.obj $builddir\rcond.obj $builddir\checkTransformationMatrixCondition.obj $builddir\find.obj $builddir\mtimes.obj $builddir\mrdivide_helper.obj $builddir\estimateEssentialMatrix.obj $builddir\ishermitian.obj $builddir\eigGeneralized.obj $builddir\assertValidSizeArg.obj $builddir\computeLoopNumber.obj $builddir\mldivide.obj $builddir\epipolarLine.obj $builddir\estrelpose.obj $builddir\anyNonFinite.obj $builddir\estRelPoseImpl.obj $builddir\cameraProjection.obj $builddir\constrainToRotationMatrix3D.obj $builddir\diag.obj $builddir\mean.obj $builddir\inv.obj $builddir\triangulate.obj $builddir\repmat.obj $builddir\bsxfun.obj $builddir\ixfun.obj $builddir\vecnorm.obj $builddir\error.obj $builddir\ismember.obj $builddir\issorted.obj $builddir\eml_setop.obj $builddir\sortIdx.obj $builddir\sparse.obj $builddir\validateNumericIndex.obj $builddir\locBsearch.obj $builddir\bigProduct.obj $builddir\validateattributes.obj $builddir\histcounts.obj $builddir\catCheck.obj $builddir\unique.obj $builddir\bundleAdjustment.obj $builddir\validateAndParseInputs.obj $builddir\convertInputDataFormat.obj $builddir\squeeze.obj $builddir\rotationToQuaternion.obj $builddir\sparseBA.obj $builddir\median.obj $builddir\quickselect.obj $builddir\checkIfViewIsMissing.obj $builddir\nullAssignment.obj $builddir\ind2sub.obj $builddir\validatenrows.obj $builddir\unaryMinOrMax.obj $builddir\helperTrackLastKeyFrameKLT.obj $builddir\matchFeaturesInRadius.obj $builddir\exhaustiveDistanceMetrics.obj $builddir\partialSort.obj $builddir\estWorldPoseImpl.obj $builddir\solveP3P.obj $builddir\roots.obj $builddir\computeRigidTransform.obj $builddir\bundleAdjustmentMotion.obj $builddir\rodriguesVectorToMatrix.obj $builddir\computeReprojectionErrors.obj $builddir\helperTrackLocalMapCg.obj $builddir\world2img.obj $builddir\validatenonnan.obj $builddir\validatepositive.obj $builddir\helperCreateNewMapPoints.obj $builddir\helperCheckLoopClosureCg.obj $builddir\spdiags.obj $builddir\evaluateImageRetrieval.obj $builddir\nchoosek.obj $builddir\estgeotform3d.obj $builddir\randperm.obj $builddir\constructFromEdgeList.obj $builddir\sortLE.obj $builddir\optimizePoses.obj $builddir\strjoin.obj $builddir\optimizePoses1.obj $builddir\_coder_helperVisualSLAMCodegen_api.obj $builddir\_coder_helperVisualSLAMCodegen_mex.obj $builddir\rng.obj $builddir\eml_int_forloop_overflow_check.obj $builddir\sub2ind.obj $builddir\strcmp.obj $builddir\sort3.obj $builddir\dijkstraShortestPathImpl.obj $builddir\xscal.obj $builddir\xaxpy.obj $builddir\xrot.obj $builddir\xswap.obj $builddir\xzgetrf.obj $builddir\sort.obj $builddir\xzlascl.obj $builddir\checkAndConvertMatchedPoints.obj $builddir\pose2extr.obj $builddir\cosd.obj $builddir\fix.obj $builddir\sortrows.obj $builddir\introsort.obj $builddir\insertionsort.obj $builddir\heapsort.obj $builddir\checkAndConvertPoints.obj $builddir\validateAndParseInputs1.obj $builddir\sqrt.obj $builddir\useConstantDim.obj $builddir\acosd.obj $builddir\sqrt1.obj $builddir\helperAddNewKeyFrame.obj $builddir\helperAddLoopConnections.obj $builddir\div.obj $builddir\sumprod.obj $builddir\MLGraph.obj $builddir\PointTracker.obj $builddir\averagePrecision.obj $builddir\unsafeSxfun.obj $builddir\ViewSetFeatureGraph.obj $builddir\worldpointset.obj $builddir\cameraIntrinsics.obj $builddir\ORBPoints.obj $builddir\rigidtform3d.obj $builddir\graphPropertyContainer.obj $builddir\graph.obj $builddir\imageviewset.obj $builddir\sparse1.obj $builddir\string1.obj $builddir\EncoderBinaryFeatures.obj $builddir\EncoderVocabularyTree.obj $builddir\bagOfFeatures.obj $builddir\visualWords.obj $builddir\invertedImageIndex.obj $builddir\pointTrack.obj $builddir\rowNamesDim.obj $builddir\varNamesDim.obj $builddir\table.obj $builddir\list1.obj $builddir\affine3d.obj $builddir\rigid3d.obj $builddir\WarningState.obj $builddir\MLDigraph.obj $builddir\digraph.obj $builddir\minPriorityQueue.obj $builddir\ORBPointsImpl.obj $builddir\FeaturePointsImpl.obj $builddir\addedge.obj $builddir\rigid3dImpl.obj $builddir\ViewSetBaseImpl.obj $builddir\bundleAdjustmentValidation.obj $builddir\helperVisualSLAMCodegen_mexutil.obj $builddir\_coder_helperVisualSLAMCodegen_info.obj $builddir\cpp_mexapi_version.obj 
